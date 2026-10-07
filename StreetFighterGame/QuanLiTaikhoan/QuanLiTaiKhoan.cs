@@ -9,377 +9,138 @@ using System.Windows.Forms;
 
 namespace StreetFighterGame.QuanLiTaikhoan
 {
-    public class LichSuTranDauViewModel
-    {
-        public string TenNguoiChoi { get; set; }
-        public string NhanVat1 { get; set; }
-        public string NhanVat2 { get; set; }
-        public string KetQua { get; set; }
-        public DateTime? ThoiGianTranDau { get; set; } 
-    }
-
-    public class TaiKhoan
-    {
-        public string Username;
-        public string Password;
-        public TaiKhoan(string us, string ps)
-        {
-            Username = us;
-            Password = ps;
-        }
-    }
-    public class TopPlayer
-    {
-        public string Username { get; set; }
-        public int Wins { get; set; }
-    }
+    public class LichSuTranDauViewModel { public string TenNguoiChoi { get; set; } public string NhanVat1 { get; set; } public string NhanVat2 { get; set; } public string KetQua { get; set; } public DateTime? ThoiGianTranDau { get; set; } }
+    public class TaiKhoan { public string Username; public string Password; public TaiKhoan(string us, string ps) { Username = us; Password = ps; } }
+    public class TopPlayer { public string Username { get; set; } public int Wins { get; set; } }
 
     public static class QuanLiTaiKhoan
     {
         public static TaiKhoan taiKhoanDangChoi = new TaiKhoan(string.Empty, string.Empty);
         public static TaiKhoan Admin = new TaiKhoan("Admin", "TanHuyVippro05");
+
         public static int GetNhanVatIdByName(string tenNhanVat)
         {
-            var db = new DoAnGameLoEntities();
-             var nhanVat = db.NHAN_VAT
-                                .FirstOrDefault(nv => nv.TenNhanVat == tenNhanVat);
-
-                return nhanVat.NhanVatId; // Trả về Id hoặc null nếu không tìm thấy
+            var character = CSVHelper.LoadNhanVat().FirstOrDefault(x => string.Equals(x.TenNhanVat, tenNhanVat, StringComparison.OrdinalIgnoreCase));
+            return character == null ? 0 : character.NhanVatId;
         }
+
         public static int GetUserIdByUsername(string username)
         {
-            using (var db = new DoAnGameLoEntities())
-            {
-                return db.TAI_KHOAN
-                         .Where(u => u.Username == username)
-                         .Select(u => u.UserId)
-                         .FirstOrDefault();
-            }
+            var account = CSVHelper.LoadTaiKhoan().FirstOrDefault(x => x.Username == username);
+            return account == null ? 0 : account.UserId;
         }
 
         public static void LuuTranDau(int nhanVat1Id, int nhanVat2Id, string ketQua)
         {
-            var db = new DoAnGameLoEntities();
-                // Tạo đối tượng mới cho lịch sử trận đấu
-                var tranDauMoi = new LICH_SU_TRAN_DAU
-                {
-                    UserId = GetUserIdByUsername(taiKhoanDangChoi.Username),
-                    NhanVat1Id = nhanVat1Id,
-                    NhanVat2Id = nhanVat2Id,
-                    KetQua = ketQua,
-                    ThoiGianTranDau = DateTime.Now // Lấy thời gian hiện tại
-                };
+            var accounts = CSVHelper.LoadTaiKhoan();
+            var matches = CSVHelper.LoadLichSuDau();
+            var account = accounts.FirstOrDefault(x => x.Username == taiKhoanDangChoi.Username);
+            if (account == null) { MessageBox.Show("Không tìm thấy tài khoản đang đăng nhập."); return; }
 
-                db.LICH_SU_TRAN_DAU.Add(tranDauMoi);
+            matches.Add(new LichSuDauModel { TranDauId = matches.Count == 0 ? 1 : matches.Max(x => x.TranDauId) + 1, UserId = account.UserId, NhanVat1Id = nhanVat1Id, NhanVat2Id = nhanVat2Id, KetQua = ketQua, ThoiGianTranDau = DateTime.Now });
+            if (ketQua == "Win") account.SoTranThang++;
+            else if (ketQua == "Lose") account.SoTranThua++;
+            else if (ketQua == "Draw") account.SoTranHoa++;
 
-                // Cập nhật số trận thắng hoặc số trận thua
-                var user = db.TAI_KHOAN.FirstOrDefault(u => u.Username == taiKhoanDangChoi.Username);
-                if (user != null)
-                {
-                    if (ketQua == "Win") // để kQua là Win mới tính
-                    {
-                        user.SoTranThang = (user.SoTranThang ?? 0) + 1; // Tăng số trận thắng
-                    }
-                    else if (ketQua == "Lose") // để name là Lose mới tính
-                    {
-                        user.SoTranThua = (user.SoTranThua ?? 0) + 1; // Tăng số trận thua
-                    }
-                    else if (ketQua == "Draw")
-                    {
-                        user.SoTranHoa = (user.SoTranHoa ?? 0) + 1; // Tăng số trận hòa
-                    }
-                    
-                }
-
-                // Lưu thay đổi vào cơ sở dữ liệu
-                db.SaveChanges();
-                Console.WriteLine($"Trận thắng: {user.SoTranThang}, Trận thua: {user.SoTranThua}, Trận Hòa: {user.SoTranHoa}");
+            CSVHelper.SaveLichSuDau(matches);
+            CSVHelper.SaveTaiKhoan(accounts);
+            CapNhatXepHang(accounts);
         }
 
         public static List<LichSuTranDauViewModel> LayLichSuTranDau()
         {
-            using (var db = new DoAnGameLoEntities())
-            {
-                var lichSu = db.LICH_SU_TRAN_DAU
-                .Join(db.TAI_KHOAN, ls => ls.UserId, tk => tk.UserId, (ls, tk) => new { ls, tk })
-                .Join(db.NHAN_VAT, lsTk => lsTk.ls.NhanVat1Id, nv1 => nv1.NhanVatId, (lsTk, nv1) => new { lsTk, nv1 })
-                .Join(db.NHAN_VAT, lsTkNv1 => lsTkNv1.lsTk.ls.NhanVat2Id, nv2 => nv2.NhanVatId, (lsTkNv1, nv2) => new
-                {
-                    TenNguoiChoi = lsTkNv1.lsTk.tk.Username,
-                    NhanVat1 = lsTkNv1.nv1.TenNhanVat,
-                    NhanVat2 = nv2.TenNhanVat,
-                    lsTkNv1.lsTk.ls.KetQua,
-                    lsTkNv1.lsTk.ls.ThoiGianTranDau
-                })
-                .Select(x => new LichSuTranDauViewModel
-                {
-                    TenNguoiChoi = x.TenNguoiChoi,
-                    NhanVat1 = x.NhanVat1,
-                    NhanVat2 = x.NhanVat2,
-                    KetQua = x.KetQua,
-                    ThoiGianTranDau = x.ThoiGianTranDau ?? DateTime.MinValue
-                })
-                // Sắp xếp theo thời gian trận đấu từ mới nhất đến cũ nhất
-                .OrderByDescending(x => x.ThoiGianTranDau)
-                .ToList();
-
-                return lichSu;
-            }
+            var accounts = CSVHelper.LoadTaiKhoan();
+            var characters = CSVHelper.LoadNhanVat();
+            return CSVHelper.LoadLichSuDau()
+                .Join(accounts, m => m.UserId, a => a.UserId, (m, a) => new { m, a })
+                .Join(characters, x => x.m.NhanVat1Id, c => c.NhanVatId, (x, c1) => new { x.m, x.a, c1 })
+                .Join(characters, x => x.m.NhanVat2Id, c => c.NhanVatId, (x, c2) => new LichSuTranDauViewModel { TenNguoiChoi = x.a.Username, NhanVat1 = x.c1.TenNhanVat, NhanVat2 = c2.TenNhanVat, KetQua = x.m.KetQua, ThoiGianTranDau = x.m.ThoiGianTranDau })
+                .OrderByDescending(x => x.ThoiGianTranDau).ToList();
         }
 
         public static void HienThiLichSuTranDau(DataGridView dataGridView)
         {
-            var lichSu = LayLichSuTranDau();
-
-            dataGridView.DataSource = lichSu;
-
+            dataGridView.DataSource = LayLichSuTranDau();
             dataGridView.Columns["TenNguoiChoi"].HeaderText = "Người chơi";
             dataGridView.Columns["NhanVat1"].HeaderText = "Nhân vật 1";
             dataGridView.Columns["NhanVat2"].HeaderText = "Nhân vật 2";
             dataGridView.Columns["KetQua"].HeaderText = "Kết quả";
             dataGridView.Columns["ThoiGianTranDau"].HeaderText = "Thời gian";
         }
-        public static List<LichSuTranDauViewModel> TimKiemLichSu(string tenNguoiChoi)
-        {
-            using (DoAnGameLoEntities db = new DoAnGameLoEntities())
-            {
-                var lichSu = LayLichSuTranDau()
-                    .Where(ls => ls.TenNguoiChoi.Contains(tenNguoiChoi))
-                    .ToList();
 
-                return lichSu;
-            }
-        }
+        public static List<LichSuTranDauViewModel> TimKiemLichSu(string tenNguoiChoi) { return LayLichSuTranDau().Where(x => x.TenNguoiChoi.Contains(tenNguoiChoi)).ToList(); }
 
         public static List<TopPlayer> LayTop3NguoiChoi()
         {
-            using (var db = new DoAnGameLoEntities())
-            {
-                var top3Players = db.TAI_KHOAN
-                .OrderByDescending(x => x.SoTranThang) // Sắp xếp theo số trận thắng giảm dần
-                .Take(3) // Lấy 3 tài khoản đầu tiên
-                .ToList() // Lấy kết quả từ database về bộ nhớ
-                .Select(x => new TopPlayer // Chuyển đổi sang danh sách đối tượng TopPlayer
-                {
-                    Username = x.Username,
-                    Wins = x.SoTranThang ?? 0 // Nếu SoTranThang null, gán mặc định là 0
-                })
-                .ToList();
-
-                return top3Players;
-            }
+            return CSVHelper.LoadTaiKhoan().OrderByDescending(x => x.SoTranThang).Take(3).Select(x => new TopPlayer { Username = x.Username, Wins = x.SoTranThang }).ToList();
         }
-
 
         public static bool DoiMatKhau(string username, string oldPassword, string newPassword, string confirmPassword, Label message)
         {
-                // Tìm tài khoản
-            using(var db = new DoAnGameLoEntities())
-            {
-                var account = db.TAI_KHOAN.FirstOrDefault(a => a.Username == username && a.Password == oldPassword);
-
-                if (account == null)
-                {
-                    message.Visible = true;
-                    message.Text = "Tên tài khoản hoặc mật khẩu cũ không chính xác!";
-                    return false;
-                }
-
-                // Kiểm tra mật khẩu mới có hợp lệ không
-                if (newPassword.Length < 8)
-                {
-                    message.Visible = true;
-                    message.Text = "Mật khẩu mới phải có ít nhất 8 ký tự!";
-                    return false;
-                }
-
-                if (newPassword != confirmPassword)
-                {
-                    message.Visible = true;
-                    message.Text = "Mật khẩu mới và xác nhận mật khẩu không khớp!";
-                    return false;
-                }
-
-                // Cập nhật mật khẩu mới
-                account.Password = newPassword;
-                db.SaveChanges();
-                MessageBox.Show("Đổi mật khẩu thành công!");
-                message.Visible = false;
-                return true;
-            }
+            var accounts = CSVHelper.LoadTaiKhoan();
+            var account = accounts.FirstOrDefault(x => x.Username == username && x.Password == oldPassword);
+            if (account == null) { message.Visible = true; message.Text = "Tên tài khoản hoặc mật khẩu cũ không chính xác!"; return false; }
+            if (newPassword.Length < 8) { message.Visible = true; message.Text = "Mật khẩu mới phải có ít nhất 8 ký tự!"; return false; }
+            if (newPassword != confirmPassword) { message.Visible = true; message.Text = "Mật khẩu mới và xác nhận mật khẩu không khớp!"; return false; }
+            account.Password = newPassword; CSVHelper.SaveTaiKhoan(accounts); MessageBox.Show("Đổi mật khẩu thành công!"); message.Visible = false; return true;
         }
 
         public static bool XoaTaiKhoan(string username)
         {
-            if (username == Admin.Username)
-            {
-                MessageBox.Show("Không thể xóa tài khoản admin");
-                return false;
-            }
-            using (var db = new DoAnGameLoEntities())
-            {
-                // Tìm tài khoản cần xóa
-                var account = db.TAI_KHOAN.FirstOrDefault(a => a.Username == username);
-
-                if (account != null)
-                {
-                    // Xóa các bản ghi trong bảng XEP_HANG liên quan đến tài khoản này
-                    var xepHang = db.XEP_HANG.Where(xh => xh.UserId == account.UserId).ToList();
-                    db.XEP_HANG.RemoveRange(xepHang);
-
-                    // Xóa các bản ghi trong bảng LICH_SU_TRAN_DAU liên quan đến tài khoản này
-                    var lichSuTranDau = db.LICH_SU_TRAN_DAU.Where(ls => ls.UserId == account.UserId).ToList();
-                    db.LICH_SU_TRAN_DAU.RemoveRange(lichSuTranDau);
-
-                    // Xóa tài khoản
-                    db.TAI_KHOAN.Remove(account);
-
-                    // Lưu thay đổi
-                    db.SaveChanges();
-                    MessageBox.Show($"Tài khoản '{username}' đã được xóa thành công!");
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show($"Không tìm thấy tài khoản '{username}'!");
-                    return false;
-                }
-            }
+            if (username == Admin.Username) { MessageBox.Show("Không thể xóa tài khoản admin"); return false; }
+            var accounts = CSVHelper.LoadTaiKhoan(); var account = accounts.FirstOrDefault(x => x.Username == username);
+            if (account == null) { MessageBox.Show("Không tìm thấy tài khoản '" + username + "'!"); return false; }
+            accounts.Remove(account);
+            var matches = CSVHelper.LoadLichSuDau(); matches.RemoveAll(x => x.UserId == account.UserId);
+            CSVHelper.SaveTaiKhoan(accounts); CSVHelper.SaveLichSuDau(matches); CapNhatXepHang(accounts);
+            MessageBox.Show("Tài khoản '" + username + "' đã được xóa thành công!"); return true;
         }
 
-
-        public static void TimKiemTaiKhoan(DataGridView dataGridViewAccounts, string keyword)
+        public static void TimKiemTaiKhoan(DataGridView grid, string keyword)
         {
-            using (var db = new DoAnGameLoEntities())
-            {
-                if (keyword == string.Empty)
-                {
-                    LoadDanhSachTaiKhoanLenGridView(dataGridViewAccounts);
-                    return;
-                }
-                var searchResult = db.TAI_KHOAN
-               .Where(a => a.Username.Contains(keyword)) // Lọc theo từ khóa
-               .Select(a => new
-               {
-                   a.UserId,
-                   a.Username,
-                   a.Tien,
-                   a.SoTranThang,
-                   a.SoTranThua,
-                   a.SoTranHoa
-               }).ToList();
-
-                // Gán kết quả vào DataGridView
-                dataGridViewAccounts.DataSource = searchResult;
-
-                if (searchResult.Count == 0)
-                {
-                    MessageBox.Show("Không tìm thấy tài khoản nào phù hợp!");
-                }
-            }
+            if (string.IsNullOrWhiteSpace(keyword)) { LoadDanhSachTaiKhoanLenGridView(grid); return; }
+            grid.DataSource = CSVHelper.LoadTaiKhoan().Where(x => x.Username.Contains(keyword)).Select(x => new { x.UserId, x.Username, x.Tien, x.SoTranThang, x.SoTranThua, x.SoTranHoa }).ToList();
         }
-        public static void LoadDanhSachTaiKhoanLenGridView(DataGridView dataGridViewAccounts)
-        {
-            using (var db = new DoAnGameLoEntities())
-            {
-                var accounts = db.TAI_KHOAN
-                .Select(a => new
-                {
-                    a.UserId,
-                    a.Username,
-                    a.Tien,
-                    a.SoTranThang,
-                    a.SoTranThua,
-                    a.SoTranHoa
-                }).ToList();
-                dataGridViewAccounts.Dock = DockStyle.None; // kích thước tùy chỉnh cho Admin
-                dataGridViewAccounts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridViewAccounts.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-                // Hiển thị danh sách lên DataGridView
-                dataGridViewAccounts.DataSource = accounts;
-            }
-        }
-        public static bool CheckIsAdmin()
-        {
-            Console.WriteLine(taiKhoanDangChoi.Username);
-            return taiKhoanDangChoi.Username == "Admin";
-        }
-        public static void DangNhap(string us, string ps)
-        {
-            using (var db = new DoAnGameLoEntities())
-            {
-                string username = us;
-                string password = ps;
-                var user = db.TAI_KHOAN
-                     .FirstOrDefault(u => u.Username == username && u.Password == password);
-                if (user != null)
-                {
-                    taiKhoanDangChoi.Username = us;
-                    taiKhoanDangChoi.Password = ps;
-                    FormStart mhs = new FormStart();
-                    mhs.Show();
-                    FormLogincs.instance.Hide();
-                }
-                else
-                {
-                    // Đăng nhập thất bại
-                    MessageBox.Show("Tài khoản hoặc mật khẩu sai!");
-                }
-            }
-        }
-        public static bool CreatAccount(string usn, string ps, string crUs, string crPs1, string crPs2, Label lb)
-        {
-            if (CheckUsername(lb, crUs) && CheckPassword(lb, crPs1, crPs2))
-            {
-                using (DoAnGameLoEntities db = new DoAnGameLoEntities())
-                {
-                    TAI_KHOAN newUser = new TAI_KHOAN
-                    {
-                        Username = usn,
-                        Password = ps,
-                        Tien = 100
-                    };
 
-                    db.TAI_KHOAN.Add(newUser);
-
-                    db.SaveChanges();
-                }
-                MessageBox.Show("Tạo tài khoản thành công");
-
-                return true;
-            }
-            return false;
-        }
-        public static bool CheckUsername(Label lb, string crUs)
+        public static void LoadDanhSachTaiKhoanLenGridView(DataGridView grid)
         {
-            using (var db = new DoAnGameLoEntities())
-            {
-                var user = db.TAI_KHOAN.FirstOrDefault(u => u.Username == crUs);
-
-                if (user != null)
-                {
-                    lb.Visible = true;
-                    lb.Text = "Tài khoản đã tồn tại";
-                    return false;  // Username tồn tại, trả về false (không hợp lệ khi đăng ký)
-                }
-                else
-                {
-                    return true;   // Username không tồn tại, trả về true (hợp lệ khi đăng ký)
-                }
-            }
+            grid.Dock = DockStyle.None; grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            grid.DataSource = CSVHelper.LoadTaiKhoan().Select(x => new { x.UserId, x.Username, x.Tien, x.SoTranThang, x.SoTranThua, x.SoTranHoa }).ToList();
         }
-        public static bool CheckPassword(Label lb, string crPs1, string crPs2)
+
+        public static bool CheckIsAdmin() { return taiKhoanDangChoi.Username == "Admin"; }
+
+        public static void DangNhap(string username, string password)
         {
-            if (crPs1 == crPs2 && crPs1.Length >= 8)
-            {
-                return true;
-            }
-            else
-            {
-                lb.Visible = true;
-                lb.Text = "Mật khẩu phải dài hơn 8 kí tự";
-                return false;
-            }
+            var account = CSVHelper.LoadTaiKhoan().FirstOrDefault(x => x.Username == username && x.Password == password);
+            if (account == null) { MessageBox.Show("Tài khoản hoặc mật khẩu sai!"); return; }
+            taiKhoanDangChoi.Username = account.Username; taiKhoanDangChoi.Password = account.Password;
+            new FormStart().Show(); FormLogincs.instance.Hide();
+        }
+
+        public static bool CreatAccount(string username, string password, string confirmUsername, string password1, string password2, Label message)
+        {
+            if (!CheckUsername(message, confirmUsername) || !CheckPassword(message, password1, password2)) return false;
+            var accounts = CSVHelper.LoadTaiKhoan();
+            accounts.Add(new TaiKhoanModel { UserId = accounts.Count == 0 ? 1 : accounts.Max(x => x.UserId) + 1, Username = username, Password = password, Tien = 100 });
+            CSVHelper.SaveTaiKhoan(accounts); MessageBox.Show("Tạo tài khoản thành công"); return true;
+        }
+
+        public static bool CheckUsername(Label message, string username)
+        {
+            if (CSVHelper.LoadTaiKhoan().Any(x => x.Username == username)) { message.Visible = true; message.Text = "Tài khoản đã tồn tại"; return false; }
+            return true;
+        }
+
+        public static bool CheckPassword(Label message, string password1, string password2)
+        {
+            if (password1 == password2 && password1.Length >= 8) return true;
+            message.Visible = true; message.Text = "Mật khẩu phải dài hơn 8 kí tự"; return false;
+        }
+
+        private static void CapNhatXepHang(List<TaiKhoanModel> accounts)
+        {
+            CSVHelper.SaveXepHang(accounts.OrderByDescending(x => x.SoTranThang).Select((x, i) => new XepHangModel { UserId = x.UserId, SoTranThang = x.SoTranThang, XepHang = i + 1 }).ToList());
         }
     }
 }

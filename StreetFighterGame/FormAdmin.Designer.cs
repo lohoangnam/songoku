@@ -48,31 +48,28 @@
             this.dataGridViewAccounts.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dataGridViewAccounts.BackgroundColor = System.Drawing.Color.Silver;
             this.dataGridViewAccounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewAccounts.Location = new System.Drawing.Point(3, 179);
-            this.dataGridViewAccounts.Margin = new System.Windows.Forms.Padding(2);
+            this.dataGridViewAccounts.Location = new System.Drawing.Point(4, 275);
             this.dataGridViewAccounts.Name = "dataGridViewAccounts";
             this.dataGridViewAccounts.RowHeadersWidth = 51;
             this.dataGridViewAccounts.RowTemplate.Height = 24;
-            this.dataGridViewAccounts.Size = new System.Drawing.Size(658, 291);
+            this.dataGridViewAccounts.Size = new System.Drawing.Size(987, 448);
             this.dataGridViewAccounts.TabIndex = 0;
             // 
             // textBoxKeyWord
             // 
             this.textBoxKeyWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxKeyWord.Location = new System.Drawing.Point(11, 113);
-            this.textBoxKeyWord.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxKeyWord.Location = new System.Drawing.Point(16, 174);
             this.textBoxKeyWord.Name = "textBoxKeyWord";
-            this.textBoxKeyWord.Size = new System.Drawing.Size(189, 28);
+            this.textBoxKeyWord.Size = new System.Drawing.Size(282, 39);
             this.textBoxKeyWord.TabIndex = 1;
             // 
             // buttonFind
             // 
             this.buttonFind.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.buttonFind.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonFind.Location = new System.Drawing.Point(218, 115);
-            this.buttonFind.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonFind.Location = new System.Drawing.Point(327, 177);
             this.buttonFind.Name = "buttonFind";
-            this.buttonFind.Size = new System.Drawing.Size(65, 29);
+            this.buttonFind.Size = new System.Drawing.Size(98, 45);
             this.buttonFind.TabIndex = 2;
             this.buttonFind.Text = "Tìm kiếm";
             this.buttonFind.UseVisualStyleBackColor = false;
@@ -82,10 +79,9 @@
             // 
             this.buttonDelAccount.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.buttonDelAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDelAccount.Location = new System.Drawing.Point(561, 113);
-            this.buttonDelAccount.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonDelAccount.Location = new System.Drawing.Point(842, 174);
             this.buttonDelAccount.Name = "buttonDelAccount";
-            this.buttonDelAccount.Size = new System.Drawing.Size(100, 47);
+            this.buttonDelAccount.Size = new System.Drawing.Size(150, 72);
             this.buttonDelAccount.TabIndex = 4;
             this.buttonDelAccount.Text = "Xóa tài khoản";
             this.buttonDelAccount.UseVisualStyleBackColor = false;
@@ -98,20 +94,18 @@
             this.panelXoaTk.Controls.Add(this.label1);
             this.panelXoaTk.Controls.Add(this.buttonXoa);
             this.panelXoaTk.Controls.Add(this.textBoxXoa);
-            this.panelXoaTk.Location = new System.Drawing.Point(242, 165);
-            this.panelXoaTk.Margin = new System.Windows.Forms.Padding(2);
+            this.panelXoaTk.Location = new System.Drawing.Point(363, 254);
             this.panelXoaTk.Name = "panelXoaTk";
-            this.panelXoaTk.Size = new System.Drawing.Size(192, 149);
+            this.panelXoaTk.Size = new System.Drawing.Size(288, 229);
             this.panelXoaTk.TabIndex = 7;
             // 
             // BtnHuy
             // 
             this.BtnHuy.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.BtnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnHuy.Location = new System.Drawing.Point(108, 101);
-            this.BtnHuy.Margin = new System.Windows.Forms.Padding(2);
+            this.BtnHuy.Location = new System.Drawing.Point(162, 155);
             this.BtnHuy.Name = "BtnHuy";
-            this.BtnHuy.Size = new System.Drawing.Size(65, 29);
+            this.BtnHuy.Size = new System.Drawing.Size(98, 45);
             this.BtnHuy.TabIndex = 10;
             this.BtnHuy.Text = "Hủy";
             this.BtnHuy.UseVisualStyleBackColor = false;
@@ -122,10 +116,9 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(22, 15);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(33, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 17);
+            this.label1.Size = new System.Drawing.Size(156, 25);
             this.label1.TabIndex = 9;
             this.label1.Text = "Tên tài khoản";
             // 
@@ -133,10 +126,9 @@
             // 
             this.buttonXoa.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.buttonXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonXoa.Location = new System.Drawing.Point(25, 101);
-            this.buttonXoa.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonXoa.Location = new System.Drawing.Point(38, 155);
             this.buttonXoa.Name = "buttonXoa";
-            this.buttonXoa.Size = new System.Drawing.Size(65, 29);
+            this.buttonXoa.Size = new System.Drawing.Size(98, 45);
             this.buttonXoa.TabIndex = 8;
             this.buttonXoa.Text = "Xóa";
             this.buttonXoa.UseVisualStyleBackColor = false;
@@ -145,11 +137,11 @@
             // textBoxXoa
             // 
             this.textBoxXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxXoa.Location = new System.Drawing.Point(25, 34);
-            this.textBoxXoa.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxXoa.Location = new System.Drawing.Point(38, 52);
             this.textBoxXoa.Name = "textBoxXoa";
-            this.textBoxXoa.Size = new System.Drawing.Size(150, 28);
+            this.textBoxXoa.Size = new System.Drawing.Size(223, 39);
             this.textBoxXoa.TabIndex = 8;
+            this.textBoxXoa.TextChanged += new System.EventHandler(this.textBoxXoa_TextChanged);
             // 
             // buttonExit
             // 
@@ -159,10 +151,9 @@
             this.buttonExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonExit.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonExit.Location = new System.Drawing.Point(616, 24);
-            this.buttonExit.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonExit.Location = new System.Drawing.Point(924, 37);
             this.buttonExit.Name = "buttonExit";
-            this.buttonExit.Size = new System.Drawing.Size(38, 41);
+            this.buttonExit.Size = new System.Drawing.Size(57, 63);
             this.buttonExit.TabIndex = 19;
             this.buttonExit.UseVisualStyleBackColor = false;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click_1);
@@ -172,21 +163,20 @@
             this.label2.BackColor = System.Drawing.Color.DimGray;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(-4, 15);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(-6, 23);
             this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(22, 0, 0, 0);
-            this.label2.Size = new System.Drawing.Size(668, 67);
+            this.label2.Padding = new System.Windows.Forms.Padding(33, 0, 0, 0);
+            this.label2.Size = new System.Drawing.Size(1002, 103);
             this.label2.TabIndex = 20;
             this.label2.Text = "Quản lí tài khoản";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FormAdmin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(662, 470);
+            this.ClientSize = new System.Drawing.Size(993, 723);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.panelXoaTk);
             this.Controls.Add(this.buttonDelAccount);
@@ -194,7 +184,6 @@
             this.Controls.Add(this.textBoxKeyWord);
             this.Controls.Add(this.dataGridViewAccounts);
             this.Controls.Add(this.label2);
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "FormAdmin";
             this.Text = "FormAdmin";

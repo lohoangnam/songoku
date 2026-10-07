@@ -249,6 +249,11 @@ namespace StreetFighterGame
             ShowCurrentInDexMapOnPictureBox();
         }
 
+        private void pictureBoxMap_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void buttonPreMap_Click(object sender, EventArgs e)
         {
             currentInDexMapSelect--;

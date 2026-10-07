@@ -90,5 +90,10 @@ namespace StreetFighterGame
             panelDoiMatKhau.Visible = false;
             panelLogin.Visible = true;
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

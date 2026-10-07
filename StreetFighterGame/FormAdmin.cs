@@ -64,5 +64,10 @@ namespace StreetFighterGame
             formStart.Show();
             this.Close();
         }
+
+        private void textBoxXoa_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
