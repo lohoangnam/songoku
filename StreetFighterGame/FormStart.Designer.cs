@@ -33,7 +33,6 @@
             this.buttonOption = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonLogOut = new System.Windows.Forms.Button();
-            this.buttonAdmin = new System.Windows.Forms.Button();
             this.buttonRanking = new System.Windows.Forms.Button();
             this.buttonLichSuDau = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -102,21 +101,6 @@
             this.buttonLogOut.TabIndex = 3;
             this.buttonLogOut.UseVisualStyleBackColor = false;
             this.buttonLogOut.Click += new System.EventHandler(this.buttonLogOut_Click);
-            // 
-            // buttonAdmin
-            // 
-            this.buttonAdmin.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonAdmin.BackColor = System.Drawing.Color.DarkRed;
-            this.buttonAdmin.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAdmin.ForeColor = System.Drawing.Color.LightCyan;
-            this.buttonAdmin.Location = new System.Drawing.Point(687, 421);
-            this.buttonAdmin.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonAdmin.Name = "buttonAdmin";
-            this.buttonAdmin.Size = new System.Drawing.Size(97, 40);
-            this.buttonAdmin.TabIndex = 4;
-            this.buttonAdmin.Text = "Admin";
-            this.buttonAdmin.UseVisualStyleBackColor = false;
-            this.buttonAdmin.Click += new System.EventHandler(this.buttonAdmin_Click);
             // 
             // buttonRanking
             // 
@@ -201,7 +185,6 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonLichSuDau);
             this.Controls.Add(this.buttonRanking);
-            this.Controls.Add(this.buttonAdmin);
             this.Controls.Add(this.buttonLogOut);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.buttonOption);
@@ -223,7 +206,6 @@
         private System.Windows.Forms.Button buttonOption;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Button buttonLogOut;
-        private System.Windows.Forms.Button buttonAdmin;
         private System.Windows.Forms.Button buttonRanking;
         private System.Windows.Forms.Button buttonLichSuDau;
         private System.Windows.Forms.PictureBox pictureBox1;

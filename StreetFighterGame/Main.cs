@@ -33,6 +33,8 @@ namespace StreetFighterGame
         private bool player1MoveLeft, player1MoveRight, player1Jump, player1AttackJ, player1AttackK, player1Dash, player1AttackI;
         private bool player2MoveLeft, player2MoveRight, player2Jump, player2AttackJ, player2AttackK, player2Dash, player2AttackI;
         private bool isVsAI;
+        private bool resultSaved;
+        private bool soundEnabled = true;
         private void labelWiner_Click(object sender, EventArgs e)
         {
 
@@ -54,13 +56,8 @@ namespace StreetFighterGame
                 {
                     CountdownTimer.Stop();
                     EndGame();
-                    QuanLiTaiKhoan.LuuTranDau(
-                         idChar1,
-                         idChar2,
-                         "Draw"
-                    );
-                }
-                labelWiner.ToString();
+                    SaveMatchResult("Draw");
+                 }
             };
         }
         private void InitializeCountdownStart()
@@ -107,6 +104,7 @@ namespace StreetFighterGame
         public StreetFighterGame(string s1, string s2, int idChar1, int idChar2, string mappath, bool isVsAI)
         {
             InitializeComponent();
+            InitializeSound();
             InitializeCountdownStart();
             InitializeCountdown();
             SetUpForm(s1, s2, idChar1, idChar2, mappath);
@@ -114,6 +112,50 @@ namespace StreetFighterGame
             this.StartPosition = FormStartPosition.CenterScreen;
 
             font = new Font("Times New Roman", 20, FontStyle.Regular);
+        }
+
+        private void InitializeSound()
+        {
+            string musicPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Audio", "anime.mp3");
+            AudioManager.StartLoop(musicPath);
+            soundEnabled = AudioManager.IsEnabled;
+            UpdateSoundButton();
+        }
+
+        private void pictureBoxSound_Click(object sender, EventArgs e)
+        {
+            AudioManager.Toggle();
+            soundEnabled = AudioManager.IsEnabled;
+            UpdateSoundButton();
+        }
+
+        private void UpdateSoundButton()
+        {
+            string imageName = soundEnabled ? "bat.png" : "tat.png";
+            string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", imageName);
+
+            pictureBoxSound.Visible = true;
+            pictureBoxSound.BringToFront();
+            pictureBoxSound.BackgroundImageLayout = ImageLayout.Stretch;
+
+            if (File.Exists(imagePath))
+            {
+                using (Image image = Image.FromFile(imagePath))
+                {
+                    pictureBoxSound.BackgroundImage = new Bitmap(image);
+                }
+            }
+            else
+            {
+                pictureBoxSound.BackgroundImage = null;
+                pictureBoxSound.BackColor = soundEnabled ? Color.Green : Color.Red;
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            StopGame();
+            base.OnFormClosed(e);
         }
         private void SetUpForm(string s1, string s2, int _idChar1, int _idChar2, string mappath)
         {
@@ -130,18 +172,7 @@ namespace StreetFighterGame
             // Kiểm tra đường dẫn bản đồ và tải hình ảnh
             if (!string.IsNullOrEmpty(mappath) && File.Exists(mappath))
             {
-                // Đọc hình ảnh từ file
                 background = Image.FromFile(mappath);
-
-                // Tính toán tỷ lệ để thay đổi kích thước ảnh sao cho nó phù hợp với kích thước của form
-                int newWidth = this.Width;  // Chiều rộng của form
-                int newHeight = this.Height;  // Chiều cao của form
-
-                // Thay đổi kích thước ảnh sao cho nó phù hợp với form mà không làm méo hình ảnh
-                Image resizedBackground = new Bitmap(background, newWidth, newHeight);
-
-                // Gán ảnh nền đã thay đổi kích thước vào form
-                this.BackgroundImage = resizedBackground;
             }
 
 
@@ -153,7 +184,8 @@ namespace StreetFighterGame
             string player2Choice = s2;  // Default character for player 2
             idChar1 = _idChar1;
             idChar2 = _idChar2;
-            logicGame.InitializeCharacterSelection(player1Choice, player2Choice);
+            int groundY = ClientSize.Height - 35;
+            logicGame.InitializeCharacterSelection(player1Choice, player2Choice, groundY);
             logicGame.Player2.IsFacingLeft = true;
             // Initialize Timer for game animation
             animationTimer = new Timer
@@ -199,8 +231,36 @@ namespace StreetFighterGame
         {
 
         }
+        private void StopGame()
+        {
+            endGame = true;
+            AudioManager.Stop();
+
+            if (animationTimer != null)
+            {
+                animationTimer.Stop();
+                animationTimer.Dispose();
+                animationTimer = null;
+            }
+
+            if (CountdownTimer != null)
+            {
+                CountdownTimer.Stop();
+                CountdownTimer.Dispose();
+                CountdownTimer = null;
+            }
+
+            if (CountdownStart != null)
+            {
+                CountdownStart.Stop();
+                CountdownStart.Dispose();
+                CountdownStart = null;
+            }
+        }
+
         private void EndGame()
         {
+            StopGame();
             FormStart st = new FormStart();
             st.Show();
             this.Close();
@@ -404,7 +464,10 @@ namespace StreetFighterGame
             bool shouldFlip = character.IsMovingLeft || (!character.IsMovingLeft && character.IsFacingLeft);
             character.charWidth = (int)(character.CurrentImage.Width * character.ScaleFactor);
             character.charHeight = (int)(character.CurrentImage.Height * character.ScaleFactor);
-            if (!character.isJumpping) character.PositionY = Math.Min(character.BaseY - character.charHeight, this.ClientSize.Height - character.charHeight);
+            if (!character.isJumpping)
+            {
+                character.PositionY = character.BaseY - character.charHeight;
+            }
 
             // Lưu trạng thái đồ họa hiện tại
             GraphicsState state = e.Graphics.Save();
@@ -483,12 +546,9 @@ namespace StreetFighterGame
         {
             if (background != null && background.Width > 0 && background.Height > 0)
             {
-                // Vẽ nền với tỷ lệ phù hợp
-                float scaleX = (float)this.ClientSize.Width / background.Width;
-                float scaleY = (float)this.ClientSize.Height / background.Height;
-                float scale = Math.Min(scaleX, scaleY);
-
-                e.Graphics.DrawImage(background, 0, 0, background.Width * scale, background.Height * scale);
+                e.Graphics.DrawImage(
+                    background,
+                    new Rectangle(0, 0, ClientSize.Width, ClientSize.Height));
             }
             else
             {
@@ -574,15 +634,12 @@ namespace StreetFighterGame
             if (endGame) return; // Đảm bảo chỉ xử lý khi game chưa kết thúc
 
             endGame = true; // Đánh dấu trận đấu đã kết thúc
+            StopGame();
             labelWiner.Visible = true;
             labelWiner.Text = nameWinner + "  " + "WIN";
 
             // Lưu lịch sử trận đấu
-            QuanLiTaiKhoan.LuuTranDau(
-                idChar1,
-                idChar2,
-                nameWinner == logicGame.Player1.Name ? "Win" : "Lose"
-            );
+            SaveMatchResult(nameWinner == logicGame.Player1.Name ? "Win" : "Lose");
 
             // Hiển thị FormStart
             // Dừng và giải phóng Timer cũ (nếu có)
@@ -604,14 +661,29 @@ namespace StreetFighterGame
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            timer.Stop();
-            timer.Dispose();
-            timer = null;
+            if (timer != null)
+            {
+                timer.Stop();
+                timer.Dispose();
+                timer = null;
+            }
+
+            StopGame();
             FormStart mhs = new FormStart();
             mhs.Show();
-            this.Dispose(); // Giải phóng form hiện tại
+            this.Close();
         }
 
+        private void SaveMatchResult(string result)
+        {
+            if (resultSaved || !isVsAI)
+            {
+                return;
+            }
+
+            resultSaved = true;
+            QuanLiTaiKhoan.LuuTranDau(idChar1, idChar2, result, true);
+        }
 
         private float DrawHealthAndEnergy(PaintEventArgs e, Character character, int x, int y, bool flip)
         {

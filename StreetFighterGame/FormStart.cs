@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using StreetFighterGame.QuanLiTaikhoan;
 
 namespace StreetFighterGame
 {
@@ -16,79 +8,58 @@ namespace StreetFighterGame
         public FormStart()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
-            if (QuanLiTaiKhoan.CheckIsAdmin()) buttonAdmin.Visible = true;
-            else buttonAdmin.Visible = false;
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            ChonNhanVat cnv = new ChonNhanVat(false);
-            cnv.Show();
-            this.Close();
+            new ChonNhanVat(false).Show();
+            Hide();
         }
 
         private void buttonLogOut_Click(object sender, EventArgs e)
         {
-            FormLogincs.instance.HienThi();
-            this.Close();
+            Application.Exit();
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn thoát?", "Xác nhận thoát", MessageBoxButtons.YesNo);
-
-            if (result == DialogResult.Yes)
-            {
+            if (MessageBox.Show("Bạn có chắc chắn muốn thoát?", "Xác nhận thoát", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 Application.Exit();
-            }
-        }
-
-        private void buttonAdmin_Click(object sender, EventArgs e)
-        {
-            FormAdmin adminForm = new FormAdmin();
-            adminForm.Show();
-            this.Hide();
         }
 
         private void buttonRanking_Click(object sender, EventArgs e)
         {
-            FormRanking rk = new FormRanking();
-            rk.Show();
-            this.Close();
+            new FormRanking().Show();
+            Hide();
         }
 
         private void buttonLichSuDau_Click(object sender, EventArgs e)
         {
-            FormLichSuDau lsd = new FormLichSuDau();
-            lsd.Show();
-            this.Close();
+            new FormLichSuDau().Show();
+            Hide();
         }
 
         private void buttonOption_Click(object sender, EventArgs e)
         {
-            FormThanhVien tv = new FormThanhVien();
-            tv.Show();
-            this.Close();
+            new FormThanhVien().Show();
+            Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ChonNhanVat cnv = new ChonNhanVat(true);
-            cnv.Show();
-            this.Close();
+            new ChonNhanVat(true).Show();
+            Hide();
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
-            Huongdan hd = new Huongdan();  
-            hd.Show();
-            this.Close();
+            new Huongdan().Show();
+            Hide();
         }
 
         private void FormStart_Load(object sender, EventArgs e)
         {
-
         }
     }
 }

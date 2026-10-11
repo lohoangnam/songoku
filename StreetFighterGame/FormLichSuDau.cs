@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using StreetFighterGame.QuanLiTaikhoan;
+
 namespace StreetFighterGame
 {
     public partial class FormLichSuDau : Form
@@ -15,7 +9,7 @@ namespace StreetFighterGame
         public FormLichSuDau()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void FormLichSuDau_Load(object sender, EventArgs e)
@@ -23,17 +17,9 @@ namespace StreetFighterGame
             QuanLiTaiKhoan.HienThiLichSuTranDau(dataGridView1);
         }
 
-        private void buttonExit_Click(object sender, EventArgs e)
-        {
-            FormStart st = new FormStart();
-            st.Show();
-            this.Close();
-        }
-
         private void buttonFind_Click(object sender, EventArgs e)
         {
-            var lichSu = QuanLiTaiKhoan.TimKiemLichSu(textBoxKeyWord.Text);
-            dataGridView1.DataSource = lichSu;
+            dataGridView1.DataSource = QuanLiTaiKhoan.TimKiemLichSu(textBoxKeyWord.Text);
         }
 
         private void buttonLamMoi_Click(object sender, EventArgs e)
@@ -41,13 +27,15 @@ namespace StreetFighterGame
             QuanLiTaiKhoan.HienThiLichSuTranDau(dataGridView1);
         }
 
-        private void buttonExit_Click_1(object sender, EventArgs e)
+        private void buttonExit_Click(object sender, EventArgs e)
         {
-            FormStart st = new FormStart();
-            st.Show();
-            this.Close();
+            new FormStart().Show();
+            Close();
         }
 
-        
+        private void buttonExit_Click_1(object sender, EventArgs e)
+        {
+            buttonExit_Click(sender, e);
+        }
     }
 }

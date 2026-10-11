@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -115,24 +115,13 @@
     <Compile Include="ChonNhanVat.Designer.cs">
       <DependentUpon>ChonNhanVat.cs</DependentUpon>
     </Compile>
-    <Compile Include="CSV.cs" />
-    <Compile Include="FormAdmin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormAdmin.Designer.cs">
-      <DependentUpon>FormAdmin.cs</DependentUpon>
-    </Compile>
+     <Compile Include="CSV.cs" />
+     <Compile Include="AudioManager.cs" />
     <Compile Include="FormLichSuDau.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormLichSuDau.Designer.cs">
       <DependentUpon>FormLichSuDau.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormLogincs.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormLogincs.Designer.cs">
-      <DependentUpon>FormLogincs.cs</DependentUpon>
     </Compile>
     <Compile Include="FormRanking.cs">
       <SubType>Form</SubType>
@@ -205,14 +194,8 @@
     <EmbeddedResource Include="ChonNhanVat.resx">
       <DependentUpon>ChonNhanVat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormAdmin.resx">
-      <DependentUpon>FormAdmin.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormLichSuDau.resx">
       <DependentUpon>FormLichSuDau.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormLogincs.resx">
-      <DependentUpon>FormLogincs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRanking.resx">
       <DependentUpon>FormRanking.cs</DependentUpon>
@@ -249,6 +232,7 @@
     <None Include="Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </None>
+    <None Include="THONG_KE_NHAN_VAT.csv"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></None>
     <None Include="NV.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -262,12 +246,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="TKoan.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="XH.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -309,6 +287,15 @@
     <None Include="Resources\backGround.jpg" />
     <Content Include="Resources\GokuMUI_0-0.png" />
     <Content Include="Resources\Naruto_300-2.png" />
+     <Content Include="Audio\anime.mp3">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </Content>
+     <Content Include="Resources\bat.png">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </Content>
+     <Content Include="Resources\tat.png">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -327,3 +314,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
+
+
+

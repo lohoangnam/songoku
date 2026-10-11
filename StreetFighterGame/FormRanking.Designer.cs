@@ -76,7 +76,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 20);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Tên tài khoản";
+            this.label4.Text = "Tên nhân vật";
             // 
             // label5
             // 
@@ -101,7 +101,7 @@
             this.lblTop1Name.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.lblTop1Name.Size = new System.Drawing.Size(308, 47);
             this.lblTop1Name.TabIndex = 6;
-            this.lblTop1Name.Text = "Tên tài khoản";
+            this.lblTop1Name.Text = "Tên nhân vật";
             this.lblTop1Name.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTop2Name
@@ -115,7 +115,7 @@
             this.lblTop2Name.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.lblTop2Name.Size = new System.Drawing.Size(308, 47);
             this.lblTop2Name.TabIndex = 7;
-            this.lblTop2Name.Text = "Tên tài khoản";
+            this.lblTop2Name.Text = "Tên nhân vật";
             this.lblTop2Name.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTop3Name
@@ -129,7 +129,7 @@
             this.lblTop3Name.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.lblTop3Name.Size = new System.Drawing.Size(308, 47);
             this.lblTop3Name.TabIndex = 8;
-            this.lblTop3Name.Text = "Tên tài khoản";
+            this.lblTop3Name.Text = "Tên nhân vật";
             this.lblTop3Name.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTop1Wins

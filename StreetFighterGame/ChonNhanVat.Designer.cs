@@ -61,7 +61,7 @@
             this.buttonFight.BackColor = System.Drawing.Color.Goldenrod;
             this.buttonFight.Font = new System.Drawing.Font("Impact", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonFight.ForeColor = System.Drawing.Color.Black;
-            this.buttonFight.Location = new System.Drawing.Point(610, 637);
+            this.buttonFight.Location = new System.Drawing.Point(572, 623);
             this.buttonFight.Name = "buttonFight";
             this.buttonFight.Size = new System.Drawing.Size(153, 77);
             this.buttonFight.TabIndex = 8;
@@ -76,7 +76,7 @@
             this.labelName.BackColor = System.Drawing.Color.Transparent;
             this.labelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelName.ForeColor = System.Drawing.Color.White;
-            this.labelName.Location = new System.Drawing.Point(118, 394);
+            this.labelName.Location = new System.Drawing.Point(110, 374);
             this.labelName.Name = "labelName";
             this.labelName.Size = new System.Drawing.Size(174, 46);
             this.labelName.TabIndex = 19;
@@ -102,7 +102,7 @@
             // 
             this.pictureBox8.BackgroundImage = global::StreetFighterGame.Properties.Resources.gojo;
             this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox8.Location = new System.Drawing.Point(6, 117);
+            this.pictureBox8.Location = new System.Drawing.Point(6, 59);
             this.pictureBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(114, 126);
@@ -114,7 +114,7 @@
             // 
             this.pictureBox5.BackgroundImage = global::StreetFighterGame.Properties.Resources.ryu;
             this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox5.Location = new System.Drawing.Point(142, 118);
+            this.pictureBox5.Location = new System.Drawing.Point(142, 59);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(112, 125);
             this.pictureBox5.TabIndex = 13;
@@ -125,7 +125,7 @@
             // 
             this.pictureBox2.BackgroundImage = global::StreetFighterGame.Properties.Resources.vegito;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(286, 266);
+            this.pictureBox2.Location = new System.Drawing.Point(290, 209);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(112, 125);
             this.pictureBox2.TabIndex = 10;
@@ -136,7 +136,7 @@
             // 
             this.pictureBox7.BackgroundImage = global::StreetFighterGame.Properties.Resources.goku;
             this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox7.Location = new System.Drawing.Point(6, 266);
+            this.pictureBox7.Location = new System.Drawing.Point(6, 209);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(112, 125);
             this.pictureBox7.TabIndex = 15;
@@ -147,7 +147,7 @@
             // 
             this.pictureBox3.BackgroundImage = global::StreetFighterGame.Properties.Resources.zenitsu;
             this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox3.Location = new System.Drawing.Point(286, 118);
+            this.pictureBox3.Location = new System.Drawing.Point(290, 59);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(112, 125);
             this.pictureBox3.TabIndex = 11;
@@ -158,7 +158,7 @@
             // 
             this.pictureBox1.BackgroundImage = global::StreetFighterGame.Properties.Resources.chunli;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(142, 266);
+            this.pictureBox1.Location = new System.Drawing.Point(142, 209);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(112, 125);
             this.pictureBox1.TabIndex = 9;
@@ -185,7 +185,7 @@
             this.buttonPreMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonPreMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonPreMap.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonPreMap.Location = new System.Drawing.Point(471, 618);
+            this.buttonPreMap.Location = new System.Drawing.Point(403, 474);
             this.buttonPreMap.Name = "buttonPreMap";
             this.buttonPreMap.Size = new System.Drawing.Size(68, 75);
             this.buttonPreMap.TabIndex = 24;
@@ -200,7 +200,7 @@
             this.buttonNextMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonNextMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonNextMap.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonNextMap.Location = new System.Drawing.Point(805, 618);
+            this.buttonNextMap.Location = new System.Drawing.Point(879, 474);
             this.buttonNextMap.Name = "buttonNextMap";
             this.buttonNextMap.Size = new System.Drawing.Size(68, 75);
             this.buttonNextMap.TabIndex = 23;
@@ -239,7 +239,7 @@
             this.buttonLogOut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonLogOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonLogOut.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonLogOut.Location = new System.Drawing.Point(1242, 26);
+            this.buttonLogOut.Location = new System.Drawing.Point(1136, 23);
             this.buttonLogOut.Name = "buttonLogOut";
             this.buttonLogOut.Size = new System.Drawing.Size(57, 63);
             this.buttonLogOut.TabIndex = 25;

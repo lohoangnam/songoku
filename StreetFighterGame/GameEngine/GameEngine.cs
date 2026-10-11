@@ -22,12 +22,12 @@ namespace StreetFighterGame.GameEngine
         }
 
         // Cho phép người chơi chọn nhân vật
-        public void InitializeCharacterSelection(string character1Name, string character2Name)
+        public void InitializeCharacterSelection(string character1Name, string character2Name, int groundY)
         {
             // Tạo nhân vật cho Player 1
-            Player1 = CharacterFactory.CreateCharacter(character1Name, startX: 200, startY: 400);
+            Player1 = CharacterFactory.CreateCharacter(character1Name, startX: 200, startY: groundY);
             // Tạo nhân vật cho Player 2
-            Player2 = CharacterFactory.CreateCharacter(character2Name, startX: 750, startY: 400);
+            Player2 = CharacterFactory.CreateCharacter(character2Name, startX: 750, startY: groundY);
         }
 
         public void Update()
